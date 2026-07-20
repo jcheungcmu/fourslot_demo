@@ -13,8 +13,6 @@ The repository is organized as follows:
 *   **`slot2/`**: Contains the source code ([fourslot_iopipes_sink.cpp](file:///home/jcheung2/ofs_fourslot/2024.1/iseries_apps/bringup/old/iopipes_test/slot2/fourslot_iopipes_sink.cpp)) for the FPGA sink kernel running on Slot 2, which writes received data back to host memory.
 *   **`slot3/`**: Contains the source code ([fourslot_iopipes_src.cpp](file:///home/jcheung2/ofs_fourslot/2024.1/iseries_apps/bringup/old/iopipes_test/slot3/fourslot_iopipes_src.cpp)) for the FPGA source kernel running on Slot 3, which reads input data from host memory.
 *   **`main.cpp`**: The host application that orchestrates the test by dynamically loading the compiled slot kernels, submitting them to the device queues, and validating the processed output.
-*   **`Makefile`**: Compilation rules for individual slots (`s0`, `s1`, `s2`, `s3`), early linking (`s0_early` etc.), and the host application.
-*   **`build.sh`**: A shell script that sequentially builds the kernel libraries for all slots. It automatically updates the slot-specific hardware build configurations before running each compilation.
 
 ---
 
