@@ -1,5 +1,7 @@
 # Multislot IO Pipe Demonstration
 
+Generated with gemini 
+
 This repository demonstrates routing data across four independent FPGA slots using Network-on-Chip (NoC) based IO pipes.
 
 ---
