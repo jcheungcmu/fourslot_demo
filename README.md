@@ -57,50 +57,9 @@ Data starts on the host, flows sequentially through all four FPGA slots via the 
 
 ---
 
-## Build System
-
-To compile the kernels and the host executable:
-
-### Prerequisites
-- The environment variable `OFS_ASP_ROOT` must be set to the root of the OFS Board Support Package (BSP).
-- Intel oneAPI compiler `icpx` must be available in the system PATH.
-
 ### Compilation Design (Split Kernels)
 This project compiles each slot kernel as an independent shared library (`.so`) using the technique described in the Intel oneAPI FPGA Add-on Guide: [Split a Kernel into Multiple FPGA Images](https://www.intel.com/content/www/us/en/docs/oneapi-fpga-add-on/developer-guide/2024-0/split-kernel-into-multiple-fpga-images-linux-only.html).
 
 Normally, the SYCL compilation flow compiles all FPGA kernels into a single device image linked directly inside the host executable. In a multi-slot, Partial Reconfiguration (PR) system, compiling the kernels into independent shared libraries allows us to:
 - Compile each slot's kernel independently to target a specific hardware slot partition, avoiding monolithic compiles and saving build time.
 - Dynamically load (`dlopen`) and program individual slot kernels onto their respective physical device/slot queues at runtime.
-
-### Building
-You can run the build script to compile the shared objects for all slots:
-```bash
-./build.sh
-```
-
-Alternatively, you can compile specific targets via the [Makefile](file:///home/jcheung2/ofs_fourslot/2024.1/iseries_apps/bringup/old/iopipes_test/Makefile):
-- **Full Hardware/Simulation shared libraries**:
-  - `make s0` / `make s1` / `make s2` / `make s3`
-- **Early Device/Simulation link files** (for quick compilation/checks):
-  - `make s0_early` / `make s1_early` / `make s2_early` / `make s3_early` / `make all_early`
-- **Host Application**:
-  - `make main`
-
----
-
-## Execution & Verification
-
-1. Compile the host program:
-   ```bash
-   make main
-   ```
-2. Run the host executable:
-   ```bash
-   ./main
-   ```
-
-### How the Host Verification Works
-1. The [main.cpp](file:///home/jcheung2/ofs_fourslot/2024.1/iseries_apps/bringup/old/iopipes_test/main.cpp) host program loads the four compiled kernel libraries (`.so` wrappers around FPGA bitstreams) dynamically using `dlopen`/`dlsym`.
-2. It discovers the FPGA platforms and slots, mapping them to 4 distinct SYCL device queues (`q0` to `q3`).
-3. It initializes input data in a host vector (`src_mem`), then runs the four kernels asynchronously on their respective slot queues.
-4. Finally, it checks if the results in `sink_mem` reflect the expected operations (i.e., data passing successfully through all hops and accumulating the operations performed by the stream kernels).
