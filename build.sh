@@ -6,9 +6,7 @@ mkdir -p logs
 touch logs/build_$timestamp.log
 log_file="logs/build_$timestamp.log"
 
-run_dir="${OFS_ASP_ROOT}/hardware/ofs_iseries-dk/build/scripts/"
-
-make clean 
+run_dir="${OFS_ASP_ROOT}/hardware/ofs_iseries-dk_usm_noc/build/scripts/" 
 
 echo "building for ${run_dir}"
 

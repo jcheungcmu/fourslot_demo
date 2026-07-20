@@ -1,6 +1,6 @@
-TARGET = $(OFS_ASP_ROOT):ofs_iseries-dk
+TARGET = $(OFS_ASP_ROOT):ofs_iseries-dk_usm_noc
 
-MHZ = 200MHz
+MHZ = 600MHz
 
 EARLY = -fsycl-link=early 
 
