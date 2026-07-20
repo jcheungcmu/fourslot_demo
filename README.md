@@ -1,4 +1,4 @@
-# Multislot IO Pipe Demonstration (`iopipes_test`)
+# Multislot IO Pipe Demonstration
 
 This directory contains a SYCL/oneAPI demonstration and test suite for Intel's Open FPGA Stack (OFS) targeting a multi-slot FPGA system (such as the Intel Dev Kit with USM and NoC support: `ofs_iseries-dk_usm_noc`).
 
