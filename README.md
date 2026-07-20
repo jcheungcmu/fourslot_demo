@@ -69,6 +69,13 @@ To compile the kernels and the host executable:
 - The environment variable `OFS_ASP_ROOT` must be set to the root of the OFS Board Support Package (BSP).
 - Intel oneAPI compiler `icpx` must be available in the system PATH.
 
+### Compilation Design (Split Kernels)
+This project compiles each slot kernel as an independent shared library (`.so`) using the technique described in the Intel oneAPI FPGA Add-on Guide: [Split a Kernel into Multiple FPGA Images](https://www.intel.com/content/www/us/en/docs/oneapi-fpga-add-on/developer-guide/2024-0/split-kernel-into-multiple-fpga-images-linux-only.html).
+
+Normally, the SYCL compilation flow compiles all FPGA kernels into a single device image linked directly inside the host executable. In a multi-slot, Partial Reconfiguration (PR) system, compiling the kernels into independent shared libraries allows us to:
+- Compile each slot's kernel independently to target a specific hardware slot partition, avoiding monolithic compiles and saving build time.
+- Dynamically load (`dlopen`) and program individual slot kernels onto their respective physical device/slot queues at runtime.
+
 ### Building
 You can run the build script to compile the shared objects for all slots:
 ```bash
